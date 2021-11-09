@@ -47,7 +47,7 @@ export const CreditCard = ({
 }: CreditCardProps) => {
   const canvas = useRef(null)
 
-  const gradient = useMemo(() => new Gradient(["#77f46e", "#3a3aff", "#ff61ab", "#E63946"]), []);
+  const gradient = useMemo(() => new Gradient(["#e7ff36", "#3a3aff", "#ff61ab", "#E63946"]), []);
 
   useEffect(() => {
     if (canvas.current !== null) {

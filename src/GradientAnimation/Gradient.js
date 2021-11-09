@@ -280,56 +280,55 @@ function normalizeColor(hexCode) {
   //Gradient object
     export class Gradient {
     constructor(t) {
-        e(this, "el", void 0), 
-        e(this, "angle", 0), 
-        e(this, "isLoadedClass", !1), 
-        e(this, "isScrolling", !1), 
-        /*e(this, "isStatic", o.disableAmbientAnimations()),*/ 
-        e(this, "scrollingTimeout", void 0), 
-        e(this, "scrollingRefreshDelay", 200), 
-        e(this, "isIntersecting", !1), 
-        e(this, "shaderFiles", void 0), 
-        e(this, "vertexShader", void 0), 
-        e(this, "sectionColors", void 0), 
-        e(this, "conf", void 0), 
-        e(this, "uniforms", void 0), 
-        e(this, "t", 1253106), 
-        e(this, "last", 0), 
-        e(this, "width", void 0), 
-        e(this, "minWidth", 1111), 
-        e(this, "height", 600), 
-        e(this, "xSegCount", void 0), 
-        e(this, "ySegCount", void 0), 
-        e(this, "mesh", void 0), 
-        e(this, "material", void 0), 
-        e(this, "geometry", void 0), 
-        e(this, "minigl", void 0), 
-        e(this, "scrollObserver", void 0), 
-        e(this, "amp", 320), 
-        e(this, "seed", 5), 
-        e(this, "freqX", 14e-5), 
-        e(this, "freqY", 29e-5), 
-        e(this, "freqDelta", 1e-5), 
-        e(this, "activeColors", [1, 1, 1, 1]), 
-        e(this, "isMetaKey", !1), 
-        e(this, "isGradientLegendVisible", !1), 
-        e(this, "isMouseDown", !1), 
-        e(this, "handleScroll", () => {
+        // e(this, "el", void 0), 
+        this.el = undefined;
+        this.angle = 0
+        this.isLoadedClass = !1
+        this.amp = 900;
+        this.isScrolling = !1;
+        this.scrollingTimeout = undefined;
+        this.scrollingRefreshDelay = 200;
+        this.isIntersecting = !1
+        this.shaderfiles = undefined;
+        this.vertexShader = undefined;
+        this.sectionColors = undefined;
+        this.conf = 0;
+        this.t = 1253106;
+        this.last = 0;
+        this.width = undefined;
+        this.minWidth = 1111;
+        this.height = 600;
+        this.xSegCount = undefined;
+        this.ySegCount = undefined;
+        this.mesh = undefined;
+        this.material = undefined;
+        this.geometry = undefined;
+        this.minigl = undefined;
+        this.scrollObserver = undefined;
+        this.seed = 10;
+        this.freqX = 14e-5;
+        this.freqY = 29e-5;
+        this.freqDelta = 1e-5;
+        this.activeColors = [1,1,1,1];
+        this.isMetaKey = !1
+        this.isGradientLegendVisible = !1;
+        this.isMouseDown = !1;
+        this.handleScroll = () => {
             clearTimeout(this.scrollingTimeout), this.scrollingTimeout = setTimeout(this.handleScrollEnd, this.scrollingRefreshDelay), this.isGradientLegendVisible && this.hideGradientLegend(), this.conf.playing && (this.isScrolling = !0, this.pause())
-        }), 
-        e(this, "handleScrollEnd", () => {
+        }
+        this.handleScroll = () => {
             this.isScrolling = !1, this.isIntersecting && this.play()
-        }), 
-        e(this, "resize", () => {
+        }
+        this.resize = () => {
             this.width = window.innerWidth, this.minigl.setSize(this.width, this.height), this.minigl.setOrthographicCamera(), this.xSegCount = Math.ceil(this.width * this.conf.density[0]), this.ySegCount = Math.ceil(this.height * this.conf.density[1]), this.mesh.geometry.setTopology(this.xSegCount, this.ySegCount), this.mesh.geometry.setSize(this.width, this.height), this.mesh.material.uniforms.u_shadow_power.value = this.width < 600 ? 5 : 6
-        }), 
-        e(this, "handleMouseDown", e => {
+        }
+        this.handleMouseDown = e => {
             this.isGradientLegendVisible && (this.isMetaKey = e.metaKey, this.isMouseDown = !0, !1 === this.conf.playing && requestAnimationFrame(this.animate))
-        }), 
-        e(this, "handleMouseUp", () => {
+        }
+        this.handleMouseUp = () => {
             this.isMouseDown = !1
-        }), 
-        e(this, "animate", e => {
+        }
+        this.animate = e => {
             if (!this.shouldSkipFrame(e) || this.isMouseDown) {
                 if (this.t += Math.min(e - this.last, 1e3 / 15), this.last = e, this.isMouseDown) {
                     let e = 160;
@@ -340,26 +339,27 @@ function normalizeColor(hexCode) {
             }
             if (0 !== this.last && this.isStatic) return this.minigl.render(), void this.disconnect();
             (/*this.isIntersecting && */this.conf.playing || this.isMouseDown) && requestAnimationFrame(this.animate)
-        }), 
-        e(this, "addIsLoadedClass", () => {
+        }
+        this.addIsLoadedClass = () => {
             /*this.isIntersecting && */!this.isLoadedClass && (this.isLoadedClass = !0, this.el.classList.add("isLoaded"), setTimeout(() => {
                 this.el.parentElement.classList.add("isLoaded")
             }, 3e3))
-        }), 
-        e(this, "pause", () => {
+        }
+        this.pause = () => {
             this.conf.playing = false
-        }), 
-        e(this, "play", () => {
+        }
+        this.play = () => {
             requestAnimationFrame(this.animate), this.conf.playing = true
-        }), 
-        e(this,"initGradient", (ref) => {
+        }
+        this.initGradient = (ref) => {
             // select the referenced fucking thingy
 
           this.el = ref;
           this.setColors(t)
           this.connect();
           return this;
-        })
+        }
+
     }
     async connect() {
         this.shaderFiles = {
@@ -371,7 +371,7 @@ function normalizeColor(hexCode) {
         this.conf = {
             presetName: "",
             wireframe: false,
-            density: [.06, .16],
+            density: [.04 , 0.03],
             zoom: 1,
             rotation: 0,
             playing: true
