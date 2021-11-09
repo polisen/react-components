@@ -26,17 +26,14 @@ const CreditCardContainer = styled.div`
       transition: .1s all ease-in-out;
     }
   }
-  width: 16em;
-  height: 10em;
+  width: 100%;
+  height: 100%;
 `
 
 
 const StyledCanvas = styled.canvas`
   width: 100%;
   height: 100%;
-
-
-
 `
 
 
@@ -50,7 +47,7 @@ export const CreditCard = ({
 }: CreditCardProps) => {
   const canvas = useRef(null)
 
-  const gradient = useMemo(() => new Gradient(), []);
+  const gradient = useMemo(() => new Gradient(["#77f46e", "#3a3aff", "#ff61ab", "#E63946"]), []);
 
   useEffect(() => {
     if (canvas.current !== null) {

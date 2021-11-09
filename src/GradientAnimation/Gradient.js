@@ -279,10 +279,8 @@ function normalizeColor(hexCode) {
   
   //Gradient object
     export class Gradient {
-    constructor(...t) {
+    constructor(t) {
         e(this, "el", void 0), 
-        e(this, "cssVarRetries", 0), 
-        e(this, "maxCssVarRetries", 200), 
         e(this, "angle", 0), 
         e(this, "isLoadedClass", !1), 
         e(this, "isScrolling", !1), 
@@ -358,6 +356,7 @@ function normalizeColor(hexCode) {
             // select the referenced fucking thingy
 
           this.el = ref;
+          this.setColors(t)
           this.connect();
           return this;
         })
@@ -379,8 +378,8 @@ function normalizeColor(hexCode) {
         }, 
         document.querySelectorAll("canvas").length < 1 ? console.log("DID NOT LOAD HERO STRIPE CANVAS") : (
           
-          this.minigl = new MiniGl(this.el, null, null, !0), 
-          this.init(), 
+          this.minigl = new MiniGl(this.el, null, null, !0),
+          this.init(),
           this.addIsLoadedClass()
           /*
           this.scrollObserver = await s.create(.1, !1),
@@ -517,7 +516,6 @@ function normalizeColor(hexCode) {
         this.isGradientLegendVisible = !1, document.body.classList.remove("isGradientLegendVisible")
     }
     init() {
-        this.initGradientColors(), 
         this.initMesh(), 
         this.resize(), 
         requestAnimationFrame(this.animate), 
@@ -528,10 +526,10 @@ function normalizeColor(hexCode) {
     * Initializes the four section colors by retrieving them from css variables.
     */
 
-    initGradientColors() {
+    setColors(t) {
         console.debug('Initializing Colors');
         // console.debug({t});
-        this.sectionColors = ["#6ec3f4", "#3a3aff", "#ff61ab", "#E63946"].map(hex => {
+        this.sectionColors = t.map(hex => {
             //Check if shorthand hex value was used and double the length so the conversion in normalizeColor will work.
             if (4 === hex.length) {
                 const hexTemp = hex.substr(1).split("").map(hexTemp => hexTemp + hexTemp).join("");
