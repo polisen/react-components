@@ -382,7 +382,7 @@ function normalizeColor(hexCode) {
           
           this.minigl = new MiniGl(this.el, null, null, !0), 
           requestAnimationFrame(() => {
-              this.el && (this.computedCanvasStyle = getComputedStyle(this.el), this.waitForCssVars())
+              this.el && (this.computedCanvasStyle = getComputedStyle(this.el), this.init(), this.addIsLoadedClass())
           })
           /*
           this.scrollObserver = await s.create(.1, !1),
@@ -549,7 +549,7 @@ function normalizeColor(hexCode) {
 
     initGradientColors() {
         console.debug('Initializing Colors');
-        console.debug({t});
+        // console.debug({t});
         this.sectionColors = ["#6ec3f4", "#3a3aff", "#ff61ab", "#E63946"].map(hex => {
             // let hex = this.computedCanvasStyle.getPropertyValue(cssPropertyName).trim();
             //Check if shorthand hex value was used and double the length so the conversion in normalizeColor will work.
