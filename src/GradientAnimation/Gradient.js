@@ -293,7 +293,6 @@ function normalizeColor(hexCode) {
         e(this, "shaderFiles", void 0), 
         e(this, "vertexShader", void 0), 
         e(this, "sectionColors", void 0), 
-        e(this, "computedCanvasStyle", void 0), 
         e(this, "conf", void 0), 
         e(this, "uniforms", void 0), 
         e(this, "t", 1253106), 
@@ -381,9 +380,8 @@ function normalizeColor(hexCode) {
         document.querySelectorAll("canvas").length < 1 ? console.log("DID NOT LOAD HERO STRIPE CANVAS") : (
           
           this.minigl = new MiniGl(this.el, null, null, !0), 
-          requestAnimationFrame(() => {
-              this.el && (this.computedCanvasStyle = getComputedStyle(this.el), this.init(), this.addIsLoadedClass())
-          })
+          this.init(), 
+          this.addIsLoadedClass()
           /*
           this.scrollObserver = await s.create(.1, !1),
           this.scrollObserver.observe(this.el),
@@ -499,7 +497,9 @@ function normalizeColor(hexCode) {
         return this.vertexShader = [this.shaderFiles.noise, this.shaderFiles.blend, this.shaderFiles.vertex].join("\n\n"), new this.minigl.Material(this.vertexShader, this.shaderFiles.fragment, this.uniforms)
     }
     initMesh() {
-        this.material = this.initMaterial(), this.geometry = new this.minigl.PlaneGeometry, this.mesh = new this.minigl.Mesh(this.geometry, this.material)
+        this.material = this.initMaterial()
+        this.geometry = new this.minigl.PlaneGeometry
+        this.mesh = new this.minigl.Mesh(this.geometry, this.material)
     }
     shouldSkipFrame(e) {
         return !!window.document.hidden || (!this.conf.playing || (parseInt(e, 10) % 2 == 0 || void 0))
@@ -517,41 +517,21 @@ function normalizeColor(hexCode) {
         this.isGradientLegendVisible = !1, document.body.classList.remove("isGradientLegendVisible")
     }
     init() {
-        this.initGradientColors(), this.initMesh(), this.resize(), requestAnimationFrame(this.animate), window.addEventListener("resize", this.resize)
+        this.initGradientColors(), 
+        this.initMesh(), 
+        this.resize(), 
+        requestAnimationFrame(this.animate), 
+        window.addEventListener("resize", this.resize)
     }
-    /*
-    * Waiting for the css variables to become available, usually on page load before we can continue.
-    * Using default colors assigned below if no variables have been found after maxCssVarRetries
-    */
-    waitForCssVars() {
-        if (this.computedCanvasStyle && -1 !== this.computedCanvasStyle.getPropertyValue("--gradient-color-1").indexOf("#")) this.init(), this.addIsLoadedClass();
-        else {
-            if (this.cssVarRetries += 1, this.cssVarRetries > this.maxCssVarRetries) {
-                return this.sectionColors = [16711680, 16711680, 16711935, 65280, 255],void this.init();
-            }
-            requestAnimationFrame(() => this.waitForCssVars())
-        }
-    }
+
     /*
     * Initializes the four section colors by retrieving them from css variables.
     */
-    initGradientColorsOld() {
-        this.sectionColors = ["--gradient-color-1", "--gradient-color-2", "--gradient-color-3", "--gradient-color-4"].map(cssPropertyName => {
-            let hex = this.computedCanvasStyle.getPropertyValue(cssPropertyName).trim();
-            //Check if shorthand hex value was used and double the length so the conversion in normalizeColor will work.
-            if (4 === hex.length) {
-                const hexTemp = hex.substr(1).split("").map(hexTemp => hexTemp + hexTemp).join("");
-                hex = `#${hexTemp}`
-            }
-            return hex && `0x${hex.substr(1)}`
-        }).filter(Boolean).map(normalizeColor)
-    }
 
     initGradientColors() {
         console.debug('Initializing Colors');
         // console.debug({t});
         this.sectionColors = ["#6ec3f4", "#3a3aff", "#ff61ab", "#E63946"].map(hex => {
-            // let hex = this.computedCanvasStyle.getPropertyValue(cssPropertyName).trim();
             //Check if shorthand hex value was used and double the length so the conversion in normalizeColor will work.
             if (4 === hex.length) {
                 const hexTemp = hex.substr(1).split("").map(hexTemp => hexTemp + hexTemp).join("");
