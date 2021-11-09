@@ -267,16 +267,6 @@ function normalizeColor(hexCode) {
   
   
   
-  //Sets initial properties
-  function e(object, propertyName, val) {
-    return propertyName in object ? Object.defineProperty(object, propertyName, {
-        value: val,
-        enumerable: !0,
-        configurable: !0,
-        writable: !0
-    }) : object[propertyName] = val, object
-  }
-  
   //Gradient object
     export class Gradient {
     constructor(t) {

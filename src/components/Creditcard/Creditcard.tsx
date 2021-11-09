@@ -59,9 +59,17 @@ export const CreditCard = ({
     console.debug(gradient);
   }, [gradient]);
 
+  function handleToggle(n){
+    gradient.toggleColor(n)
+  }
+
   return (
     <CreditCardContainer {...props}>
         <StyledCanvas ref={canvas} id="gradient-canvas"></StyledCanvas>
+        <button onClick={() => handleToggle(0)}>toggle1</button>
+        <button onClick={() => handleToggle(1)}>toggle2</button>
+        <button onClick={() => handleToggle(2)}>toggle3</button>
+        <button onClick={() => handleToggle(3)}>toggle4</button>
     </CreditCardContainer>
   );
 };
